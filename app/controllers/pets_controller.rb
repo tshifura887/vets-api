@@ -12,6 +12,7 @@ class PetsController < ApplicationController
 
     def create  
         @pet = Pet.create!(pet_params)
+        json_response(@pet, :created)
     end
 
     private 
@@ -20,6 +21,6 @@ class PetsController < ApplicationController
     end
 
     def pet_params
-        params.permit(:name, :pet_type, :pet_breed)
+        params.permit(:name, :pet_type, :pet_breed, :age)
     end
 end
