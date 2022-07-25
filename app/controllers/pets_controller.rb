@@ -2,7 +2,7 @@ class PetsController < ApplicationController
     before_action :set_pet, only: [:show]
 
     def index 
-        @pets = Pet.all  
+        @pets = current_user.pets 
         json_response(@pets)
     end
 
@@ -11,7 +11,7 @@ class PetsController < ApplicationController
     end
 
     def create  
-        @pet = Pet.create!(pet_params)
+        @pet = current_user.pets.create!(pet_params)
         json_response(@pet, :created)
     end
 
