@@ -13,9 +13,8 @@ class RegistrationsController < ApplicationController
         end
     end
 
-    def update 
-        @registration.update(accepted: true)
-        head :no_content
+    def update
+        @registration.update(accepted: true) 
     end
 
     private 
