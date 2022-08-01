@@ -2,15 +2,13 @@ require 'rails_helper'
 
 RSpec.describe "Pets API", type: :request do
   let!(:pet) { create(:pet, user_id: user.id)}
-  let!(:registration) { create(:registration, pet_id: pet.id, user_id: user.id)}
   let(:pet_id) { pet.id}
   let(:headers) { valid_headers }
 
   describe 'GET /pets' do
-
+    let!(:registration) { create(:registration, pet_id: pet.id, user_id: user.id)}
     context 'when role is owner' do
       let!(:user) { create(:user, role: 'owner')}
-
       before { get '/pets', params: {}, headers: headers}
 
       it 'returns all pets' do
@@ -40,8 +38,6 @@ RSpec.describe "Pets API", type: :request do
 
   describe 'POST /pets' do
     let!(:user) { create(:user, role: 'owner')}
-    let(:vet) {create(:user, role: 'vet')}
-    let!(:registration) { create(:registration, pet_id: pet.id, user_id: vet.id)}
     let(:valid_attributes) { { name: 'Leo', pet_type: 'Dog', pet_breed: 'bull'}.to_json }
 
     context 'when the request is valid' do

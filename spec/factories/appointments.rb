@@ -1,5 +1,5 @@
 FactoryBot.define do
     factory :appointment do
-        appointment_date { Faker::Time.forward(days: 23)}
+        appointment_date { 2013-02-01 }
     end
 end

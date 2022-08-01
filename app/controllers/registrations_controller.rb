@@ -1,12 +1,13 @@
 class RegistrationsController < ApplicationController
     before_action :set_registration, only: :update
-    before_action :set_pet
 
     def create
-        @vet = User.find_by(name: params[:vet_email])
+        
+        @pet = Pet.find(params[:pet_id])
+        @vet = User.find_by(name: params[:vet_name])
         if @vet.present?
             @user = @pet.users.find_by(role: 'owner')
-            @pet.registrations.create!(user_id: vet.id, registration_date: DateTime.now, requested_registration: true)
+            @pet.registrations.create!(user_id: @vet.id, registered: true)
             json_response(@current_user, :created)
         else   
             json_response(:unprocessable_entity)
@@ -14,7 +15,7 @@ class RegistrationsController < ApplicationController
     end
 
     def update
-        @registration.update(accepted: true) 
+        @registration.update(accepted: true, registration_date: DateTime.now)
     end
 
     private 
@@ -22,12 +23,7 @@ class RegistrationsController < ApplicationController
         @registration = Registration.find(params[:id])
     end
 
-    def set_pet
-        @pet = Pet.find(params[:pet_id])
-    end
-
     def registration_params
-        params.permit(:requested_registration, :accepted, :registration_date)
+        params.permit(:requested, :accepted, :registration_date)
     end
-
 end

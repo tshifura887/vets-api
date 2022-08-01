@@ -35,7 +35,7 @@ ActiveRecord::Schema.define(version: 2022_07_27_091754) do
   end
 
   create_table "registrations", force: :cascade do |t|
-    t.boolean "requested", default: false
+    t.boolean "registered"
     t.boolean "accepted", default: false
     t.datetime "registration_date"
     t.bigint "pet_id", null: false
