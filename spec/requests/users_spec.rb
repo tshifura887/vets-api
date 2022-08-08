@@ -77,4 +77,94 @@ RSpec.describe "Users API", type: :request do
       end
     end
   end
+
+  describe 'GET /user/user_id' do
+
+    context 'when role is owner' do
+      let(:user) { create(:user, role: 'owner')}
+      let(:user_id) { user.id}
+      let(:headers) { valid_headers}
+      before {get "/users/#{user_id}", params: {}, headers: headers}
+
+      context 'when the record exists' do
+        it 'returns the user' do
+          expect(json).not_to be_empty
+          expect(json['id']).to eq(user_id)
+        end
+
+        it 'returns status code 200' do
+          expect(response).to have_http_status(200)
+        end
+      end
+
+      context 'when the record does not exist' do
+        let(:user_id) { 0 }
+
+        it 'returns status code 404' do
+          expect(response).to have_http_status(404)
+        end
+
+        it 'returns a not found message' do
+          expect(response.body).to match(/Couldn't find User with 'id'=0/)
+        end
+      end
+    end
+
+    context 'when role is vet' do
+      describe 'GET /users/:id' do
+        let(:user) { create(:user, role: 'vet')}
+        let(:user_id) { user.id}
+        let(:headers) { valid_headers}
+        before {get "/users/#{user_id}", params: {}, headers: headers}
+    
+        context 'when the record exists' do
+          it 'returns the user' do
+            expect(json).not_to be_empty
+            expect(json['id']).to eq(user_id)
+          end
+    
+          it 'returns status code 200' do
+            expect(response).to have_http_status(200)
+          end
+        end
+    
+        context 'when the record does not exist' do
+          let(:user_id) { 0 }
+    
+          it 'returns status code 404' do
+            expect(response).to have_http_status(404)
+          end
+    
+          it 'returns a not found message' do
+            expect(response.body).to match(/Couldn't find User with 'id'=0/)
+          end
+        end
+      end
+    end
+  end
+
+  describe 'DELETE /users/:id' do
+
+    context 'when role is owner' do
+      let(:user) { create(:user, role: 'owner')}
+      let(:user_id) { user.id}
+      let(:headers) { valid_headers}
+      before {delete "/users/#{user_id}", params: {}, headers: headers}
+
+      it 'returns status code 204' do
+        expect(response).to have_http_status(204)
+      end
+    end
+
+    context 'when role is vet' do
+      let(:user) { create(:user, role: 'vet')}
+      let(:user_id) { user.id}
+      let(:headers) { valid_headers}
+      before {delete "/users/#{user_id}", params: {}, headers: headers}
+
+      it 'returns status code 204' do
+        expect(response).to have_http_status(204)
+      end
+    end
+  end
 end

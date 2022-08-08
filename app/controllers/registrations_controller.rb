@@ -1,8 +1,14 @@
 class RegistrationsController < ApplicationController
     before_action :set_registration, only: :update
 
+    # def index
+    #     binding.pry
+    #     @pet = Pet.find(params[:pet_id])
+    #     @registrations = @pet.registrations.all
+    #     json_response(@registrations)
+    # end
+
     def create
-        
         @pet = Pet.find(params[:pet_id])
         @vet = User.find_by(name: params[:vet_name])
         if @vet.present?
@@ -14,6 +20,11 @@ class RegistrationsController < ApplicationController
         end
     end
 
+    def pets_registrations
+        pet = Pet.find(params[:pet_id])
+        json_response(pet.registrations)
+    end
+
     def update
         @registration.update(accepted: true, registration_date: DateTime.now)
     end
@@ -23,7 +34,4 @@ class RegistrationsController < ApplicationController
         @registration = Registration.find(params[:id])
     end
 
-    def registration_params
-        params.permit(:requested, :accepted, :registration_date)
-    end
 end

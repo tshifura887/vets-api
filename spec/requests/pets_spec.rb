@@ -123,4 +123,15 @@ RSpec.describe "Pets API", type: :request do
       end
     end
   end
+
+  describe 'DELETE /pets/:id' do
+    context 'when role is owner' do
+      let!(:user) { create(:user, role: 'owner')}
+      before { delete "/pets/#{pet_id}", params: {}, headers: headers}
+
+      it 'returns status code 204' do
+        expect(response).to have_http_status(204)
+      end
+    end
+  end
 end
