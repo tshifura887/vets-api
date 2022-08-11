@@ -20,20 +20,6 @@ RSpec.describe "Pets API", type: :request do
         expect(response).to have_http_status(200)
       end
     end
-
-    context 'when role is vet' do
-      let!(:user) { create(:user, role: 'vet')}
-      before { get '/pets', params: {}, headers: headers}
-
-      it 'returns all pets' do
-        expect(json).not_to be_empty
-        expect(json.size).to eq(1)
-      end
-
-      it 'returns status code 200' do
-        expect(response).to have_http_status(200)
-      end
-    end
   end
 
   describe 'POST /pets' do
@@ -69,34 +55,6 @@ RSpec.describe "Pets API", type: :request do
   describe 'GET /pets/:pet_id' do
     context 'when role is owner' do
       let!(:user) { create(:user, role: 'owner')}
-      before { get "/pets/#{pet_id}", params: {}, headers: headers}
-
-      context 'when the record exists' do
-        it 'returns the pet' do
-          expect(json).not_to be_empty
-          expect(json['id']).to eq(pet_id)
-        end
-
-        it 'returns status code 200' do
-          expect(response).to have_http_status(200)
-        end
-      end
-
-      context 'when the record does not exist' do
-        let(:pet_id) { 100 }
-
-        it 'returns status code 404' do
-          expect(response).to have_http_status(404)
-        end
-
-        it 'returns a not found message' do
-          expect(response.body).to match(/Couldn't find Pet with 'id'=100/)
-        end
-      end
-    end
-
-    context 'when role is vet' do
-      let!(:user) { create(:user, role: 'vet')}
       before { get "/pets/#{pet_id}", params: {}, headers: headers}
 
       context 'when the record exists' do

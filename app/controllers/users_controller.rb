@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
     skip_before_action :authorize_request, only: :create
-    before_action :set_user, only: [:show, :destroy]
+    before_action :set_user, only: [:destroy]
     def create
       user = User.create!(user_params)
       auth_token = AuthenticateUser.new(user.email, user.password).call
@@ -9,12 +9,7 @@ class UsersController < ApplicationController
     end
 
     def show 
-      json_response(@user)
-    end
-
-    def index 
-      @users = User.all 
-      json_response(@users)
+      json_response(current_user)
     end
 
     def destroy 

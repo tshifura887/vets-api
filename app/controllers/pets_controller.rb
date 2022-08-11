@@ -6,14 +6,8 @@ class PetsController < ApplicationController
     end 
 
     def create
-        user = User.find_by(role: 'owner')
-
-        if user.present?
-            @pet = current_user.pets.create!(pet_params)
-            json_response(@pet, :created)
-        else  
-            json_response(:unprocessable_entity)
-        end
+        @pet = current_user.pets.create!(pet_params)
+        json_response(@pet, :created) 
     end
 
     def show 
