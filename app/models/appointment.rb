@@ -1,3 +1,3 @@
 class Appointment < ApplicationRecord
-    belongs_to :registration
+    belongs_to :pet
 end

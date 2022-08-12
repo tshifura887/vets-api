@@ -1,13 +1,13 @@
 class AppointmentsController < ApplicationController
-  before_action :set_registration
+  before_action :set_pet
 
   def create
-    @appointment = @registration.appointments.create!(appointment_params)
+    @appointment = @pet.appointments.create!(appointment_params)
     json_response(@appointment, :created)
   end
 
-  def registrations_appointments
-    json_response(@registration.appointments)
+  def index
+    json_response(@pet.appointments)
   end
   
   private 
@@ -16,8 +16,8 @@ class AppointmentsController < ApplicationController
     params.permit(:appointment_date)
   end
 
-  def set_registration 
-    @registration = Registration.find(params[:registration_id])
+  def set_pet 
+    @pet = Pet.find(params[:pet_id])
   end
 end
 

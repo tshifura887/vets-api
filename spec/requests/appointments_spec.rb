@@ -4,14 +4,12 @@ RSpec.describe "Appointments", type: :request do
   let!(:pet) {create(:pet)}
   let(:pet_id) {pet.id}
   let!(:user) { create(:user, role: 'owner')}
-  let!(:registration) {create(:registration, pet_id: pet.id, user_id: user.id)}
-  let(:registration_id) {registration.id}
-  let!(:appointment) { create(:appointment, registration_id: registration.id)}
+  let!(:appointment) { create(:appointment, pet_id: pet.id)}
   let(:id) {appointment.id}
   let(:headers) { valid_headers }
 
-  describe "GET /appointments/:registration_id" do
-    before { get "/appointments/#{registration_id}", params: {}, headers: headers}
+  describe "GET /pets/:pet_id/appointments" do
+    before { get "/pets/#{pet_id}/appointments", params: {}, headers: headers}
 
     it 'returns all pets' do
         expect(json).not_to be_empty
@@ -23,9 +21,9 @@ RSpec.describe "Appointments", type: :request do
     end
   end
 
-  describe 'POST /pets/:pet_id/registrations/:id/appointments' do
+  describe 'POST /pets/:pet_id/appointments' do
     let(:valid_attributes) {{appointment_date: 2013-02-01}.to_json}
-    before {post "/pets/#{pet_id}/registrations/#{registration_id}/appointments", params: valid_attributes, headers: headers}
+    before {post "/pets/#{pet_id}/appointments", params: valid_attributes, headers: headers}
 
     context 'when request is valid' do
       it 'returns http status 201' do
