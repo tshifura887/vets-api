@@ -27,10 +27,10 @@ class RegistrationsController < ApplicationController
         head :no_content
     end
 
-    def pets_registrations
-        pet = Pet.find(params[:pet_id])
-        json_response(pet.registrations)
-    end
+    # def pets_registrations
+    #     pet = Pet.find(params[:pet_id])
+    #     json_response(pet.registrations)
+    # end
 
     private 
     def set_registration
