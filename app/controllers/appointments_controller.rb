@@ -5,10 +5,6 @@ class AppointmentsController < ApplicationController
     @appointment = @pet.appointments.create!(appointment_params)
     json_response(@appointment, :created)
   end
-
-  # def index
-  #   json_response(@pet.appointments)
-  # end
   
   private 
 
